@@ -8,7 +8,7 @@ local function gfind(str, patt)
   for found in str:gmatch(patt) do
     table.insert(t, found)
   end
-  
+
   if #t > 0 then
     return t
   else
@@ -48,11 +48,16 @@ function init(jua)
     end
   end)
 
-  jua.on("http_failure", function(event, url)
+  jua.on("http_failure", function(event, url, handle)
     local id = findID(url)
     if callbackRegistry[id] then
-      callbackRegistry[id](false, trimID(url))
+      callbackRegistry[id](false, trimID(url), handle)
       table.remove(callbackRegistry, id)
     end
   end)
 end
+
+return {
+  request = request,
+  init = init
+}
