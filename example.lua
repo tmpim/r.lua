@@ -1,15 +1,5 @@
-local jua
-local r
-
-if require then
-  jua = require("jua")
-  r = require("r")
-else
-  os.loadAPI("jua")
-  jua = _G.jua
-  os.loadAPI("r")
-  r = _G.r
-end
+local jua = require("jua")
+local r = require("r")
 
 r.init(jua)
 
@@ -22,7 +12,7 @@ jua.on("mouse_click", function(event, button, x, y)
   print("Mouse Click at X: "..x.." Y: "..y)
 end)
 
-jua.setInterval(function()
+jua.onInterval(1, function()
   r.request(function(success, url, handle)
     print("Request Completed: "..tostring(success).." "..url)
     if success then
@@ -30,6 +20,6 @@ jua.setInterval(function()
       handle.close()
     end
   end, "http://time.lemmmy.pw/")
-end, 1)
+end)
 
 jua.run()
